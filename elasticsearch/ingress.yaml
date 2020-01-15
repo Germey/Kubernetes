@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-elasticsearch
+  namespace: elasticsearch
+spec:
+  rules:
+    - host: es.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: security-master
+              servicePort: 9200
+    - host: elasticsearch.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: security-master
+              servicePort: 9200
+    - host: kibana.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: kibana-security-kibana
+              servicePort: 5601
