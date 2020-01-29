@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-dashboard
+  namespace: dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+    - hosts:
+        - k8s.cuiqingcai.com
+      secretName: tls-k8s-cuiqingcai-com
+    - hosts:
+        - kubernetes.cuiqingcai.com
+      secretName: tls-kubernetes-cuiqingcai-com
+  rules:
+    - host: k8s.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: kubernetes-dashboard
+              servicePort: 443
+            path: /
+    - host: kubernetes.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: kubernetes-dashboard
+              servicePort: 443
+            path: /
