@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-gerapy
+  namespace: gerapy
+#  annotations:
+#    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - hosts:
+        - demo.gerapy.com
+      secretName: tls-demo-gerapy-com
+    - hosts:
+        - gerapy.cuiqingcai.com
+      secretName: tls-gerapy-cuiqingcai-com
+  rules:
+    - host: demo.gerapy.com
+      http:
+        paths:
+          - backend:
+              serviceName: gerapy
+              servicePort: 7777
+            path: /
+    - host: gerapy.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: gerapy
+              servicePort: 7777
+            path: /

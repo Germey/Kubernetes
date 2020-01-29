@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-gerapy
+  namespace: gerapy
+spec:
+  rules:
+    - host: demo.gerapy.com
+      http:
+        paths:
+          - backend:
+              serviceName: gerapy
+              servicePort: 7777
+            path: /

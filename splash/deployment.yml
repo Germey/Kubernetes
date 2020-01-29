@@ -32,7 +32,7 @@ spec:
   selector:
     matchLabels:
       app: splash
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 0
   strategy: {}
   template:
     metadata:
@@ -44,6 +44,12 @@ spec:
           name: splash
           ports:
             - containerPort: 8050
-          resources: {}
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "0.4"
+            limits:
+              memory: "4Gi"
+              cpu: "0.8"
       restartPolicy: Always
 status: {}
