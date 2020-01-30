@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: scrapyd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: scrapyd
+  name: scrapyd
+  namespace: scrapyd
+spec:
+  ports:
+    - name: "6800"
+      port: 6800
+      targetPort: 6800
+  selector:
+    app: scrapyd
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-scrapyd
+  namespace: scrapyd
+spec:
+  storageClassName: azure-file
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: scrapyd
+  name: scrapyd
+  namespace: scrapyd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scrapyd
+  revisionHistoryLimit: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: scrapyd
+    spec:
+      containers:
+        - image: germey/scrapyd
+          name: scrapyd
+          ports:
+            - containerPort: 6800
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "0.3"
+            limits:
+              memory: "1Gi"
+              cpu: "0.5"
+          volumeMounts:
+            - mountPath: "/app"
+              name: volume-scrapyd
+      volumes:
+        - name: volume-scrapyd
+          persistentVolumeClaim:
+            claimName: pvc-scrapyd
+      restartPolicy: Always
+status: {}
