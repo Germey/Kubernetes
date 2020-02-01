@@ -13,12 +13,12 @@ spec:
   tls:
     - hosts:
         - scrapyd.cuiqingcai.com
-      secretName: tls-scrapyd
+      secretName: tls-scrapyd-cuiqingcai-com
   rules:
     - host: scrapyd.cuiqingcai.com
       http:
         paths:
           - backend:
               serviceName: scrapyd
-              servicePort: 8050
+              servicePort: 6800
             path: /

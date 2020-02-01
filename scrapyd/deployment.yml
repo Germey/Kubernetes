@@ -45,7 +45,7 @@ spec:
   selector:
     matchLabels:
       app: scrapyd
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 0
   strategy: {}
   template:
     metadata:
@@ -59,11 +59,11 @@ spec:
             - containerPort: 6800
           resources:
             requests:
-              memory: "500Mi"
-              cpu: "0.3"
+              memory: "300Mi"
+              cpu: "0.2"
             limits:
-              memory: "1Gi"
-              cpu: "0.5"
+              memory: "600Mi"
+              cpu: "0.4"
           volumeMounts:
             - mountPath: "/app"
               name: volume-scrapyd
