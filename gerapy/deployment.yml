@@ -26,12 +26,12 @@ metadata:
   name: pvc-gerapy
   namespace: gerapy
 spec:
-  storageClassName: azure-file
+  storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -60,10 +60,10 @@ spec:
           resources:
             requests:
               memory: "500Mi"
-              cpu: "0.3"
+              cpu: "0.2"
             limits:
-              memory: "1Gi"
-              cpu: "0.5"
+              memory: "500Mi"
+              cpu: "0.2"
           volumeMounts:
             - mountPath: "/app/gerapy"
               name: volume-gerapy

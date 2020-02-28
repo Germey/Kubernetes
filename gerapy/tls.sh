@@ -1,0 +1,2 @@
+kubectl create secret tls tls-demo-gerapy-com -n gerapy --cert 1_demo.gerapy.com_bundle.crt --key 2_demo.gerapy.com.key
+kubectl create secret tls tls-gerapy-cuiqingcai-com -n gerapy --cert 1_gerapy.cuiqingcai.com_bundle.crt --key 2_gerapy.cuiqingcai.com.key

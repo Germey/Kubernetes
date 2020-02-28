@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: ingress-gerapy
   namespace: gerapy
-#  annotations:
-#    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-#    nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   tls:
     - hosts:

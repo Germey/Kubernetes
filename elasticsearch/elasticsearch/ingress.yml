@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: ingress-elasticsearch
+  namespace: elasticsearch
+spec:
+  rules:
+    - host: es.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: security-master
+              servicePort: 9200
+            path: /
+    - host: kibana.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: kibana-security-kibana
+              servicePort: 443
+            path: /
+  tls:
+    - hosts:
+        - es.cuiqingcai.com
+      secretName: tls-es-cuiqingcai-com
+    - hosts:
+        - kibana.cuiqingcai.com
+      secretName: tls-kibana-cuiqingcai-com
