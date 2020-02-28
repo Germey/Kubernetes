@@ -2,8 +2,8 @@ default: test
 
 include ../../../helpers/examples.mk
 
-RELEASE := elasticsearch-security
-NAMESPACE := elasticsearch
+RELEASE := elasticsearch
+NAMESPACE := elastic
 
 install:
 	helm upgrade --namespace $(NAMESPACE) --wait --timeout=60000 --install --values ./security.yml $(RELEASE) ../../

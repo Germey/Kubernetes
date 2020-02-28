@@ -1,5 +1,5 @@
 ---
-clusterName: "security"
+clusterName: "elasticsearch"
 nodeGroup: "master"
 
 roles:
@@ -10,18 +10,18 @@ roles:
 resources:
   requests:
     cpu: 500m
-    memory: 1Gi
+    memory: 2Gi
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 4Gi
 
 initResources:
   requests:
     cpu: 500m
-    memory: 1Gi
+    memory: 2Gi
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 4Gi
 
 protocol: https
 

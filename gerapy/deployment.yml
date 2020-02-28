@@ -33,7 +33,7 @@ spec:
     requests:
       storage: 2Gi
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1cd
 kind: Deployment
 metadata:
   labels:

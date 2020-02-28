@@ -1,8 +1,8 @@
 default: test
 include ../../../helpers/examples.mk
 
-RELEASE := kibana-security
-NAMESPACE := elasticsearch
+RELEASE := kibana
+NAMESPACE := elastic
 
 install:
 	helm upgrade --wait --timeout=600 --install --namespace $(NAMESPACE) --values ./security.yml $(RELEASE) ../../

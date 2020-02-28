@@ -1,0 +1,1 @@
+kubectl create secret tls tls-scrapyd-cuiqingcai-com -n scrapyd --cert 1_scrapyd.cuiqingcai.com_bundle.crt --key 2_scrapyd.cuiqingcai.com.key

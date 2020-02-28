@@ -26,7 +26,7 @@ metadata:
   name: pvc-scrapyd
   namespace: scrapyd
 spec:
-  storageClassName: azure-file
+  storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
