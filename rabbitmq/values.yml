@@ -307,7 +307,7 @@ networkPolicy:
   #        - frontend
 
 ## Replica count, set to 1 to provide a default available cluster
-replicas: 3
+replicas: 2
 
 ## Pod priority
 ## https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
@@ -405,13 +405,13 @@ metrics:
   ## Comma-separated list of extended scraping capabilities supported by the target RabbitMQ server
   ## ref: https://github.com/kbudde/rabbitmq_exporter#extended-rabbitmq-capabilities
   capabilities: "bert,no_sort"
-  resources:
-    requests:
-      memory: 256Mi
-      cpu: 100m
-    limits:
-      memory: 256Mi
-      cpu: 100m
+  resources: {}
+#    requests:
+#      memory: 256Mi
+#      cpu: 100m
+#    limits:
+#      memory: 256Mi
+#      cpu: 100m
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9419"
@@ -542,13 +542,7 @@ volumePermissions:
     ##
     # pullSecrets:
     #   - myRegistryKeySecretName
-  resources:
-    requests:
-      memory: 256Mi
-      cpu: 100m
-    limits:
-      memory: 256Mi
-      cpu: 100m
+  resources: {}
 
 ## forceBoot: executes 'rabbitmqctl force_boot' to force boot cluster shut down unexpectedly in an
 ## unknown order.
