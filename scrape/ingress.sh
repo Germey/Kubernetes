@@ -1,0 +1,1 @@
+helm install --name scrape --namespace scrape --set defaultBackend.image.repository=mirrorgooglecontainers/defaultbackend-amd64 stable/nginx-ingress

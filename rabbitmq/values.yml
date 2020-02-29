@@ -148,7 +148,6 @@ rabbitmq:
 
   ## Configuration file content: advanced configuration
   ## Use this as additional configuraton in classic config format (Erlang term configuration format)
-  ##
   ## If you set LDAP with TLS/SSL enabled and you are using self-signed certificates, uncomment these lines.
   ## advancedConfiguration: |-
   ##   [{
@@ -280,7 +279,10 @@ persistence:
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
-resources: {}
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
 
 networkPolicy:
   ## Enable creation of NetworkPolicy resources. Only Ingress traffic is filtered for now.
@@ -289,7 +291,7 @@ networkPolicy:
   enabled: false
 
   ## The Policy model to apply. When set to false, only pods with the correct
-  ## client label will have network access to the ports RabbitMQ is listening
+  ## client label will have network access to the port RabbitMQ is listening
   ## on. When true, RabbitMQ will accept connections from any source
   ## (with the correct destination port).
   ##
@@ -306,8 +308,8 @@ networkPolicy:
   #      values:
   #        - frontend
 
-## Replica count, set to 1 to provide a default available cluster
-replicas: 2
+## Replica count, set to 3 to provide a default available cluster
+replicas: 3
 
 ## Pod priority
 ## https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
@@ -325,11 +327,31 @@ nodeSelector:
   beta.kubernetes.io/arch: amd64
 tolerations: []
 affinity: {}
-podDisruptionBudget: {}
-  # maxUnavailable: 1
-  # minAvailable: 1
+
+## affinity: |
+##   podAntiAffinity:
+##     requiredDuringSchedulingIgnoredDuringExecution:
+##       - labelSelector:
+##           matchLabels:
+##             app: {{ template "rabbitmq.name" . }}
+##             release: {{ .Release.Name | quote }}
+##         topologyKey: kubernetes.io/hostname
+##     preferredDuringSchedulingIgnoredDuringExecution:
+##       - weight: 100
+##         podAffinityTerm:
+##           labelSelector:
+##             matchLabels:
+##               app:  {{ template "rabbitmq.name" . }}
+##               release: {{ .Release.Name | quote }}
+##           topologyKey: failure-domain.beta.kubernetes.io/zone
+
 ## annotations for rabbitmq pods
 podAnnotations: {}
+
+## Configure the podDisruptionBudget
+podDisruptionBudget: {}
+# maxUnavailable: 1
+# minAvailable: 1
 
 ## Configure the ingress resource that allows you to access the
 ## Wordpress installation. Set up the URL
@@ -398,20 +420,10 @@ metrics:
   env: {}
   ## Metrics exporter port
   port: 9419
-  ## RabbitMQ address to connect to (from the same Pod, usually the local loopback address).
-  ## If your Kubernetes cluster does not support IPv6, you can change to `127.0.0.1` in order to force IPv4.
-  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/#networking
-  rabbitmqAddress: localhost
   ## Comma-separated list of extended scraping capabilities supported by the target RabbitMQ server
   ## ref: https://github.com/kbudde/rabbitmq_exporter#extended-rabbitmq-capabilities
   capabilities: "bert,no_sort"
   resources: {}
-#    requests:
-#      memory: 256Mi
-#      cpu: 100m
-#    limits:
-#      memory: 256Mi
-#      cpu: 100m
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9419"

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limit-range
+  namespace: scrape
+spec:
+  limits:
+    - default:
+        memory: "500Mi"
+        cpu: "0.1"
+      defaultRequest:
+        memory: "100Mi"
+        cpu: "0.03"
+      type: Container
