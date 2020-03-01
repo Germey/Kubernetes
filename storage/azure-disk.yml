@@ -5,6 +5,7 @@ metadata:
 provisioner: kubernetes.io/azure-disk
 parameters:
   storageaccounttype: Standard_LRS
-  kind: Shared
+  kind: Managed
+#  storageAccount: ff4521f7d94024bc0a41772
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
