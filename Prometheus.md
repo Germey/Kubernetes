@@ -6,17 +6,17 @@
 
 ```yaml
 alertmanager:
-	persistentVolume:
-		storageClass: azure-file
+  persistentVolume:
+    storageClass: azure-file
+    resources:
+      requests:
+        memory: 200Mi
+        cpu: 100m
+      limits:
+        memory: 200Mi
+        cpu: 100m
+nodeExporter:
   resources:
-    requests:
-    	memory: 200Mi
-    	cpu: 100m
-    limits:
-    	memory: 200Mi
-    	cpu: 100m
-nodeExporter：
-	resources:
     limits:
       cpu: 200m
       memory: 50Mi
@@ -24,26 +24,26 @@ nodeExporter：
       cpu: 100m
       memory: 30Mi
 server:
-	persistentVolume:
-		storageClass: azure-file
-	resources:
+  persistentVolume:
+    storageClass: azure-file
+  resources:
     requests:
-    	memory: 500Mi
-    	cpu: 500m
+      memory: 500Mi
+      cpu: 500m
     limits:
-    	memory: 500Mi
-    	cpu: 500m
+      memory: 500Mi
+      cpu: 500m
 pushgateway:
-	resources:
+  resources:
     limits:
       cpu: 100m
       memory: 50Mi
     requests:
       cpu: 100m
       memory: 50Mi
- persistentVolume:
-   enabled: true
-   storageClass: azure-file
+  persistentVolume:
+    enabled: true
+    storageClass: azure-file
 ```
 
 初始化：
