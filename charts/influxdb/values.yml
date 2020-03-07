@@ -1,0 +1,20 @@
+persistence:
+  enabled: true
+  storageClass: azure-file
+  size: 100Gi
+
+setDefaultUser:
+  enabled: true
+  user:
+    username: "cqc"
+
+service:
+  type: LoadBalancer
+
+resources:
+  requests:
+    memory: 500Mi
+    cpu: 0.1
+  limits:
+    memory: 5Gi
+    cpu: 2
