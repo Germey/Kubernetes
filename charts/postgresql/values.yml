@@ -1,0 +1,25 @@
+global:
+  storageClass: azure-disk
+
+volumePermissions:
+  enabled: true
+
+replication:
+  enabled: true
+  slaveReplicas: 2
+  synchronousCommit: on
+  numSynchronousReplicas: 1
+
+resources:
+  requests:
+    memory: 500Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 400m
+
+service:
+  type: LoadBalancer
+
+metrics:
+  enabled: true

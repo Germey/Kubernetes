@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: scrapyd
+  name: scrapyd
+  namespace: scrapyd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scrapyd
+  revisionHistoryLimit: 0
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: scrapyd
+    spec:
+      containers:
+        - image: germey/scrapyd
+          name: scrapyd
+          ports:
+            - containerPort: 6800
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "0.2"
+            limits:
+              memory: "600Mi"
+              cpu: "0.4"
+          volumeMounts:
+            - mountPath: "/app"
+              name: volume-scrapyd
+      volumes:
+        - name: volume-scrapyd
+          persistentVolumeClaim:
+            claimName: pvc-scrapyd
+      restartPolicy: Always
+status: {}

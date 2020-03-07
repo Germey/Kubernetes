@@ -1,0 +1,1 @@
+helm install --name postgresql --namespace postgresql -f values.yml stable/postgresql

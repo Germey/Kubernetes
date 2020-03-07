@@ -1,0 +1,21 @@
+global:
+  storageClass: azure-disk
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+
+replicas: 3
+
+service:
+  type: LoadBalancer
+
+nodeSelector:
+  beta.kubernetes.io/arch: amd64
+
+metrics:
+  enabled: true
+
+volumePermissions:
+  enabled: true

@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-k8dash
+  namespace: monitor
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - hosts:
+        - k8dash.cuiqingcai.com
+      secretName: tls-k8dash-cuiqingcai-com
+  rules:
+    - host: k8dash.cuiqingcai.com
+      http:
+        paths:
+          - backend:
+              serviceName: k8dash
+              servicePort: 80
+            path: /

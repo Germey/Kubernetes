@@ -1,0 +1,30 @@
+global:
+  storageClass: azure-disk
+
+volumePermissions:
+  enabled: true
+
+master:
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 200m
+    limits:
+      memory: 1Gi
+      cpu: 400m
+
+slave:
+  replicas: 2
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 200m
+    limits:
+      memory: 1Gi
+      cpu: 400m
+
+service:
+  type: LoadBalancer
+
+metrics:
+  enabled: true

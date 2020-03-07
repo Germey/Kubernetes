@@ -1,1 +1,0 @@
-helm install --name gerapy --namespace gerapy --set defaultBackend.image.repository=mirrorgooglecontainers/defaultbackend-amd64 stable/nginx-ingress

@@ -1,0 +1,1 @@
+helm install --name ingress-k8dash --namespace kube-system --set defaultBackend.image.repository=mirrorgooglecontainers/defaultbackend-amd64 stable/nginx-ingress

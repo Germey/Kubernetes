@@ -1,0 +1,31 @@
+global:
+  storageClass: azure-disk
+
+shards: 4
+
+volumePermissions:
+  enabled: "true"
+
+service:
+  type: LoadBalancer
+
+configsvr:
+  replicas: 3
+
+shardsvr:
+  dataNode:
+    replicas: 2
+    resources:
+      requests:
+        memory: 500Mi
+        cpu: 200m
+      limits:
+        memory: 1Gi
+        cpu: 400m
+    persistence:
+      size: 50Gi
+  arbiter:
+    replicas: 1
+
+metrics:
+  enabled: true

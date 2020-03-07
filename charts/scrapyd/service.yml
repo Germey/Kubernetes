@@ -1,0 +1,16 @@
+piVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: scrapyd
+  name: scrapyd
+  namespace: scrapyd
+spec:
+  ports:
+    - name: "6800"
+      port: 6800
+      targetPort: 6800
+  selector:
+    app: scrapyd
+status:
+  loadBalancer: {}
