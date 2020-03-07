@@ -35,7 +35,7 @@ metrics:
 初始化：
 
 ```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
 ```
 
 安装：
