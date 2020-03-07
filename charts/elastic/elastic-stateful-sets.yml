@@ -1,0 +1,193 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    esMajorVersion: "7"
+  labels:
+    app: elasticsearch-master
+    chart: elasticsearch
+    heritage: Tiller
+    release: elasticsearch
+  name: elasticsearch-master
+  namespace: elastic
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: elasticsearch-master
+  serviceName: elasticsearch-master-headless
+  template:
+    metadata:
+      annotations:
+        configchecksum: bb818126c6d5b7bdb5a0e1093a608f62aeb0709874f55436a8f345313a27125
+      creationTimestamp: null
+      labels:
+        app: elasticsearch-master
+        chart: elasticsearch
+        heritage: Tiller
+        release: elasticsearch
+      name: elasticsearch-master
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - elasticsearch-master
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - env:
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: cluster.initial_master_nodes
+              value: elasticsearch-master-0,elasticsearch-master-1,elasticsearch-master-2,
+            - name: discovery.seed_hosts
+              value: elasticsearch-master-headless
+            - name: cluster.name
+              value: elasticsearch
+            - name: network.host
+              value: 0.0.0.0
+            - name: ES_JAVA_OPTS
+              value: -Xmx1g -Xms1g
+            - name: node.data
+              value: "true"
+            - name: node.ingest
+              value: "true"
+            - name: node.master
+              value: "true"
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: elastic-credentials
+            - name: ELASTIC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: elastic-credentials
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+          imagePullPolicy: IfNotPresent
+          name: elasticsearch
+          ports:
+            - containerPort: 9200
+              name: http
+              protocol: TCP
+            - containerPort: 9300
+              name: transport
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  #!/usr/bin/env bash -e
+                  # If the node is starting up wait for the cluster to be ready (request params: 'wait_for_status=green&timeout=1s' )
+                  # Once it has started only check that the node itself is responding
+                  START_FILE=/tmp/.es_start_file
+
+                  http () {
+                      local path="${1}"
+                      if [ -n "${ELASTIC_USERNAME}" ] && [ -n "${ELASTIC_PASSWORD}" ]; then
+                        BASIC_AUTH="-u ${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}"
+                      else
+                        BASIC_AUTH=''
+                      fi
+                      curl -XGET -s -k --fail ${BASIC_AUTH} https://127.0.0.1:9200${path}
+                  }
+
+                  if [ -f "${START_FILE}" ]; then
+                      echo 'Elasticsearch is already running, lets check the node is healthy and there are master nodes available'
+                      http "/_cluster/health?timeout=0s"
+                  else
+                      echo 'Waiting for elasticsearch cluster to become cluster to be ready (request params: "wait_for_status=green&timeout=1s" )'
+                      if http "/_cluster/health?wait_for_status=green&timeout=1s" ; then
+                          touch ${START_FILE}
+                          exit 0
+                      else
+                          echo 'Cluster is not yet ready (request params: "wait_for_status=green&timeout=1s" )'
+                          exit 1
+                      fi
+                  fi
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 3
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 700m
+              memory: 8Gi
+            requests:
+              cpu: 300m
+              memory: 6Gi
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 1000
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /usr/share/elasticsearch/data
+              name: elasticsearch-master
+            - mountPath: /usr/share/elasticsearch/config/certs
+              name: elastic-certificates
+            - mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              name: esconfig
+              subPath: elasticsearch.yml
+      dnsPolicy: ClusterFirst
+      initContainers:
+        - command:
+            - sysctl
+            - -w
+            - vm.max_map_count=262144
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+          imagePullPolicy: IfNotPresent
+          name: configure-sysctl
+          resources:
+            limits:
+              cpu: 500m
+              memory: 3Gi
+            requests:
+              cpu: 200m
+              memory: 2Gi
+          securityContext:
+            privileged: true
+            runAsUser: 0
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 120
+      volumes:
+        - name: elastic-certificates
+          secret:
+            defaultMode: 420
+            secretName: elastic-certificates
+        - configMap:
+            defaultMode: 420
+            name: elasticsearch-master-config
+          name: esconfig
+  volumeClaimTemplates:
+    - metadata:
+        creationTimestamp: null
+        name: pvc-elastic
+      spec:
+        storageClassName: azure-file
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 50Gi
+        volumeMode: Filesystem

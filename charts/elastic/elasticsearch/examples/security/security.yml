@@ -10,10 +10,10 @@ roles:
 resources:
   requests:
     cpu: 500m
-    memory: 2Gi
+    memory: 4Gi
   limits:
     cpu: 1000m
-    memory: 4Gi
+    memory: 6Gi
 
 initResources:
   requests:
@@ -52,3 +52,10 @@ secretMounts:
   - name: elastic-certificates
     secretName: elastic-certificates
     path: /usr/share/elasticsearch/config/certs
+
+volumeClaimTemplate:
+  storageClassName: azure-file
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 50Gi

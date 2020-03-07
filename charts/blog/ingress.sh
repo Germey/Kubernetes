@@ -1,0 +1,1 @@
+helm install --name ingress-blog --namespace blog --set defaultBackend.image.repository=mirrorgooglecontainers/defaultbackend-amd64 stable/nginx-ingress
