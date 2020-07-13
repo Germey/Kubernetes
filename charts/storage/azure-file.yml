@@ -14,5 +14,5 @@ mountOptions:
   - nobrl
   - cache=none
 parameters:
-  skuName: Standard_GRS
+  skuName: Standard_LRS
 allowVolumeExpansion: true

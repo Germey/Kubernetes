@@ -323,7 +323,7 @@ podDisruptionBudget: {}
 auth: true
 #redisPassword:
 
-## Use existing secret containing key `authKey` (ignores redisPassword)
+## Use existing secret containing key `auth` (ignores redisPassword)
 existingSecret: redis-auth
 
 ## Defines the key holding the redis password in existing secret.

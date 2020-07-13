@@ -130,8 +130,8 @@ alertmanager:
     receivers:
       - name: 'email'
         email_configs:
-          - to: 'cqc@cuiqingcai.com'
-            from: 'cqc@cuiqingcai.com'
+          - to: 'qicu@microsoft.com'
+            from: ''
             smarthost: ''
             hello: ''
             auth_username: ''
