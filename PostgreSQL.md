@@ -7,6 +7,9 @@
 ```yaml
 global:
   storageClass: azure-disk
+  postgresqlDatabase: postgres
+
+postgresqlDatabase: postgres
 
 volumePermissions:
   enabled: true
@@ -14,7 +17,7 @@ volumePermissions:
 replication:
   enabled: true
   slaveReplicas: 2
-  synchronousCommit: on
+  synchronousCommit: "on"
   numSynchronousReplicas: 1
 
 resources:
