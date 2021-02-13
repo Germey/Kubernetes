@@ -1,0 +1,1 @@
+helm install ingress-nginx2 ingress-nginx/ingress-nginx -n monitor
