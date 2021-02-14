@@ -1,0 +1,16 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - kubernetes.germey.cn
+  tls:
+    - secretName: tls-kubernetes-germey-cn
+      hosts:
+        - kubernetes.germey.cn
+metricsScraper:
+  enabled: true
+metrics-server:
+  enabled: true
