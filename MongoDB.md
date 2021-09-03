@@ -1,6 +1,6 @@
 ## MongoDB
 
-推荐使用的 Chart 为：https://github.com/bitnami/charts/tree/master/bitnami/mongodb-sharded，支持副本集、分片集群。
+推荐使用的 Chart 为：https://github.com/bitnami/charts/tree/master/bitnami/mongodb-sharded  支持副本集、分片集群。
 
 这里需要配置的内容如下：
 
