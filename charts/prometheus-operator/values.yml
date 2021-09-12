@@ -81,7 +81,6 @@ global:
 ## ref: https://prometheus.io/docs/alerting/alertmanager/
 ##
 alertmanager:
-
   ## Deploy alertmanager
   ##
   enabled: true
@@ -115,27 +114,27 @@ alertmanager:
     global:
       resolve_timeout: 30m
     route:
-      group_by: ['job']
+      group_by: ["job"]
       group_wait: 30s
       group_interval: 30m
       repeat_interval: 12h
-      receiver: 'null'
+      receiver: "null"
       routes:
         - match:
             alertname: Watchdog
-          receiver: 'null'
+          receiver: "null"
         - match:
             alertname: KubeDeploymentReplicasMismatch
-          receiver: 'email'
+          receiver: "email"
     receivers:
-      - name: 'email'
+      - name: "email"
         email_configs:
-          - to: ''
-            from: ''
-            smarthost: ''
-            hello: ''
-            auth_username: ''
-            auth_password: ''
+          - to: ""
+            from: ""
+            smarthost: ""
+            hello: ""
+            auth_username: ""
+            auth_password: ""
 
   ## Pass the Alertmanager configuration directives through Helm's templating
   ## engine. If the Alertmanager configuration contains Alertmanager templates,
@@ -376,7 +375,6 @@ alertmanager:
               storage: 50Gi
         selector: {}
 
-
     ## 	The external URL the Alertmanager instances will be available under. This is necessary to generate correct URLs. This is necessary if Alertmanager is not served from root of a DNS name.	string	false
     ##
     externalUrl:
@@ -466,7 +464,6 @@ alertmanager:
     ## PortName to use for Alert Manager.
     ##
     portName: "web"
-
 
 ## Using default values from https://github.com/helm/charts/blob/master/stable/grafana/values.yaml
 ##
@@ -884,7 +881,6 @@ kubeEtcd:
     #   replacement: $1
     #   action: replace
 
-
 ## Component scraping kube scheduler
 ##
 kubeScheduler:
@@ -937,7 +933,6 @@ kubeScheduler:
     #   replacement: $1
     #   action: replace
 
-
 ## Component scraping kube proxy
 ##
 kubeProxy:
@@ -979,7 +974,6 @@ kubeProxy:
     # - action: keep
     #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
     #   sourceLabels: [__name__]
-
 
 ## Component scraping kube state metrics
 ##
@@ -1242,7 +1236,8 @@ prometheusOperator:
   ## Assign custom affinity rules to the prometheus operator
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   ##
-  affinity: {}
+  affinity:
+    {}
     # nodeAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
   #     nodeSelectorTerms:
@@ -1294,7 +1289,6 @@ prometheusOperator:
 ## Deploy a Prometheus instance
 ##
 prometheus:
-
   enabled: true
 
   ## Annotations for Prometheus
@@ -1890,7 +1884,8 @@ prometheus:
     ##
     portName: "web"
 
-  additionalServiceMonitors: []
+  additionalServiceMonitors:
+    []
     ## Name of the ServiceMonitor to create
     ##
     # - name: ""
@@ -1975,7 +1970,8 @@ prometheus:
   ##
   # serverName: ""
 
-  additionalPodMonitors: []
+  additionalPodMonitors:
+    []
     ## Name of the PodMonitor to create
     ##
     # - name: ""
